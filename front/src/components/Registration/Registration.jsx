@@ -1,17 +1,53 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
 import styles from "./Registration.module.scss";
 
 const Registration = () => {
   const [contactMethod, setContactMethod] = useState("email");
+  const [username, setUsername] = useState("");
+  const [surname, setSurname] = useState("");
+  const [contactInfo, setContactInfo] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleContactMethodChange = (event) => {
     setContactMethod(event.target.value);
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const data = {
+      name: username,
+      surname: surname,
+      phone: contactInfo,
+      passwordHash: password,
+    };
+
+    try {
+      const api = axios.create({
+        baseURL: "http://localhost:8080", // Укажите нужный порт здесь
+      });
+
+      const response = await api.post("/auth/register", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const token = response.data.token; // Предполагается, что сервер возвращает токен в поле "token"
+      localStorage.setItem("authToken", token); // Сохраняем токен в localStorage
+
+      // Здесь можно добавить редирект или другое действие после успешной регистрации
+    } catch (error) {
+      console.error("Ошибка:", error);
+      // Здесь можно обработать ошибку, например, показать сообщение пользователю
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Регистрация</h1>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="username">
             Имя пользователя
@@ -21,6 +57,8 @@ const Registration = () => {
             type="text"
             id="username"
             name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
@@ -33,6 +71,8 @@ const Registration = () => {
             type="text"
             id="surname"
             name="surname"
+            value={surname}
+            onChange={(e) => setSurname(e.target.value)}
             required
           />
         </div>
@@ -69,6 +109,8 @@ const Registration = () => {
             type={contactMethod === "email" ? "email" : "tel"}
             id={contactMethod}
             name={contactMethod}
+            value={contactInfo}
+            onChange={(e) => setContactInfo(e.target.value)}
             required
           />
         </div>
@@ -81,6 +123,8 @@ const Registration = () => {
             type="password"
             id="password"
             name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
