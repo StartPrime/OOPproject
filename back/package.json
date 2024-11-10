@@ -1,0 +1,25 @@
+{
+	"name": "back",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index"
+	},
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"axios": "^1.7.7",
+		"bcrypt": "^5.1.1",
+		"colors": "^1.4.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"express-validator": "^7.2.0",
+		"jsonwebtoken": "^9.0.2",
+		"nodemon": "^3.1.7",
+		"postgre": "^0.1.8",
+		"sequelize": "^6.37.5"
+	}
+}
