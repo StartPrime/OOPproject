@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import classes from "./Carousels.module.scss";
+import { Link } from "react-router-dom";
 
 function ControlledCarousel({ photo, title, description }) {
   const [index, setIndex] = useState(0);
@@ -21,7 +22,9 @@ function ControlledCarousel({ photo, title, description }) {
         <div className={classes.pageTwo}></div>
         <Carousel.Caption className={classes.captionTwo}>
           <h3>{description}</h3>
-          <button className={classes.button}>Узнать больше</button>
+          <Link to="/info">
+            <button className={classes.button}>Узнать больше</button>
+          </Link>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

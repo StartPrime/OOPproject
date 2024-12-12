@@ -1,0 +1,60 @@
+.animalContainer {
+  padding: 20px;
+  background-color: rgb(201, 160, 220);
+  min-height: 100vh;
+}
+
+.animalDetails {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.animalImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.animalInfo {
+  margin-top: 15px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  button {
+    font-size: 20px;
+    min-height: 3rem;
+    border-radius: 10px;
+    color: white;
+    border-style: none;
+    background-color: rgb(255, 121, 0);
+  }
+}
+
+.printButton {
+  background-color: rgb(0, 123, 255); // Example color for print button
+}
+@media print {
+  .buttons {
+    display: none; // Скрыть кнопки при печати
+  }
+}

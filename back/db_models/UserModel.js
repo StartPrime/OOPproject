@@ -1,18 +1,47 @@
 import sequelize from '../db.js'
 import { DataTypes } from 'sequelize'
 
-export const User = sequelize.define(
+const Roles = sequelize.define(
+	'roles',
+	{
+		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+		role: {
+			type: DataTypes.ENUM('пользователь', 'администратор'),
+			allowNull: false,
+			unique: true,
+		},
+	},
+	{
+		timestamps: false,
+	}
+)
+
+const Users = sequelize.define(
 	'users',
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		name: { type: DataTypes.STRING, allowNull: false },
 		surname: { type: DataTypes.STRING, allowNull: false },
-		email: { type: DataTypes.STRING, unique: true, allowNull: true },
-		phone: { type: DataTypes.STRING, unique: true, allowNull: true },
+		email: {
+			type: DataTypes.STRING,
+			unique: true,
+			allowNull: true,
+			defaultValue: null,
+		},
+		phone: {
+			type: DataTypes.STRING,
+			unique: true,
+			allowNull: true,
+			defaultValue: null,
+		},
 		passwordHash: { type: DataTypes.STRING, allowNull: false },
 		role: {
-			type: DataTypes.ENUM('пользователь', 'администратор'),
+			type: DataTypes.INTEGER,
 			allowNull: false,
+			references: {
+				model: Roles,
+				key: 'id',
+			},
 		},
 	},
 	{
@@ -27,3 +56,13 @@ export const User = sequelize.define(
 		},
 	}
 )
+
+Users.belongsTo(Roles, { foreignKey: 'role', as: 'userRole' })
+Roles.hasMany(Users, { foreignKey: 'role' })
+
+const UserModel = {
+	Users,
+	Roles,
+}
+
+export default UserModel

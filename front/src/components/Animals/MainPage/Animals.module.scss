@@ -1,0 +1,53 @@
+$border-radius: 8px;
+$button-padding: 8px 12px;
+$button-font-size: 24px;
+$photo-height: 300px; // Фиксированная высота для фотографий
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: $border-radius;
+  padding: 16px;
+  width: 500px;
+  height: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.photo {
+  width: 100%;
+  height: $photo-height;
+  border-radius: $border-radius;
+  object-fit: contain;
+  background-color: #f0f0f0;
+}
+
+.name {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+@media (max-width: 500px) {
+  .card {
+    width: 300px;
+  }
+}

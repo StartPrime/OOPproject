@@ -1,10 +1,10 @@
 import Carousels from "./Carousels/Carousels.jsx";
 import TopPage from "./TopPage/TopPage.jsx";
 
-export default function Main() {
+export default function Main({ status }) {
   return (
     <>
-      <TopPage></TopPage>
+      <TopPage status={status}></TopPage>
       <Carousels></Carousels>
     </>
   );

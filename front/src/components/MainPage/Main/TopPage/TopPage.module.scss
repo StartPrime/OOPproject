@@ -40,8 +40,7 @@
 }
 
 .bt {
-  margin-top: 3rem;
-  font-size: 18px;
+  font-size: 20px;
   width: 15rem;
   height: 3.5rem;
   border-radius: 10px;
@@ -52,6 +51,44 @@
   &:hover {
     box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.5);
   }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.buttons {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth {
+  display: none;
+  gap: 1rem;
+  font-size: 20px;
+  a {
+    max-height: 2rem;
+    text-decoration: none;
+    color: black;
+    transition: transform 0.5s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  button {
+    min-height: 2.5rem;
+    min-width: 8rem;
+    border-radius: 10px;
+    transition: transform 0.5s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 }
 
 @media (max-width: 1050px) {
@@ -60,6 +97,12 @@
     p {
       margin-top: 2rem;
     }
+  }
+}
+
+@media (max-width: 1008px) {
+  .auth {
+    display: flex;
   }
 }
 
@@ -85,11 +128,23 @@
   .bt {
     margin-top: 1rem;
   }
+
+  .buttons {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 500px) {
   .mainLeft {
     font-size: 20px;
+  }
+  .auth {
+    flex-direction: column;
+  }
+  .buttons {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
-import { User } from '../db_models/UserModel.js'
+import UserModel from '../db_models/UserModel.js'
 
-export const register = async (req, res) => {
+const register = async (req, res) => {
 	try {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
@@ -13,14 +13,16 @@ export const register = async (req, res) => {
 		const password = req.body.passwordHash
 		const salt = await bcrypt.genSalt(10) // Метод шифрования
 		const hash = await bcrypt.hash(password, salt) // Создание зашифрованного пароля
-
-		const user = await User.create({
+		const role = await UserModel.Roles.findOne({
+			where: { role: 'пользователь' },
+		})
+		const user = await UserModel.Users.create({
 			name: req.body.name,
 			surname: req.body.surname,
-			email: req.body.email,
-			phone: req.body.phone,
+			email: req.body.email ? req.body.email : null,
+			phone: req.body.phone ? req.body.phone : null,
 			passwordHash: hash,
-			role: 'пользователь',
+			role: role.id,
 		})
 
 		// Токен пользователя
@@ -33,23 +35,85 @@ export const register = async (req, res) => {
 		)
 
 		res.json({
-			user: {
-				id: user.id,
-				email: user.email,
-				updatedAt: user.updatedAt,
-				createdAt: user.createdAt,
-			},
+			role: 'пользователь',
 			token,
+		})
+	} catch (err) {
+		res.status(500).json({
+			success: false,
+			message: 'Ошибка при регистрации пользователя',
+			error: err,
+		})
+	}
+}
+
+const authorization = async (req, res) => {
+	try {
+		// Создаем объект для поиска
+		const searchCriteria = {}
+
+		if (req.body.email) {
+			searchCriteria.email = req.body.email
+		}
+
+		if (req.body.phone) {
+			searchCriteria.phone = req.body.phone
+		}
+
+		// Ищем пользователя по критериям
+		const user = await UserModel.Users.findOne({
+			where: searchCriteria,
+		})
+		if (!user) {
+			return res
+				.status(401)
+				.json({ success: false, message: 'Неправильный логин или пароль' })
+		}
+
+		const role = await UserModel.Roles.findOne({ where: { id: user.role } })
+		if (!role) {
+			return res.status(401).json({ success: false, message: 'Ошибка' })
+		}
+
+		const isPasswordValid = await bcrypt.compare(
+			req.body.passwordHash,
+			user.passwordHash
+		)
+		if (!isPasswordValid) {
+			return res
+				.status(401)
+				.json({ success: false, message: 'Неправильный логин или пароль' })
+		}
+
+		const token = jwt.sign(
+			{
+				id: user.id,
+			},
+			'secret',
+			{ expiresIn: '30d' }
+		)
+
+		return res.json({
+			token: token,
+			role: role.role,
 		})
 	} catch (err) {
 		console.error(err)
 		res.status(500).json({
 			success: false,
-			message: 'Ошибка при регистрации пользователя',
+			message: 'Ошибка при авторизации пользователя',
 		})
 	}
 }
 
-export const UserController = {
-	register,
+const eddit = async (req, res) => {
+	try {
+	} catch {}
 }
+
+const UserController = {
+	register,
+	authorization,
+}
+
+export default UserController

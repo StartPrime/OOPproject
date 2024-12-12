@@ -1,7 +1,7 @@
 import classes from "./TopPage.module.scss";
 import { Link } from "react-router-dom";
 
-export default function TopPage() {
+export default function TopPage({ status }) {
   return (
     <>
       <div className={classes.main}>
@@ -19,12 +19,26 @@ export default function TopPage() {
               <img src="./src/assets/Page1Photo.png" alt="#" />
             </div>
           </div>
-          <div className={classes.button}>
-            <Link to="/animals">
-              <button className={classes.bt}>Найти друга</button>
-            </Link>
+          <div className={classes.buttons}>
+            <button className={classes.bt}>
+              <Link to="/animals">Найти друга </Link>
+            </button>
+            {status ? null : <Auth />}
           </div>
         </div>
+      </div>
+    </>
+  );
+}
+
+function Auth() {
+  return (
+    <>
+      <div className={classes.auth}>
+        <Link to="/auth/registration">Зарегистрироваться</Link>
+        <button>
+          <Link to="/auth/authorization">Войти </Link>
+        </button>
       </div>
     </>
   );
