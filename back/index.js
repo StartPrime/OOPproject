@@ -4,12 +4,14 @@ import 'dotenv/config'
 import cors from 'cors'
 import sequelize from './db.js'
 import { validationResult } from 'express-validator'
-import UserController from './controllers/UserController.js'
+import { userAnimalController } from './controllers/AnimalController.js'
+import { adminAnimalController } from './controllers/AnimalController.js'
 import CheckToken from './utils/CheckToken.js'
 import CheckAdmin from './utils/CheckAdmin.js'
-import AnimalController from './controllers/AnimalController.js'
-import ApplicationController from './controllers/ApplicationController.js'
-import ReportController from './controllers/ReportController.js'
+import { reportController } from './controllers/ReportController.js'
+import UserController from './controllers/UserController.js'
+import { userApplicationController } from './controllers/ApplicationController.js'
+import { adminApplicationController } from './controllers/ApplicationController.js'
 
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -30,44 +32,54 @@ app.post('/token', CheckToken, (req, res) => {
 	res.json({ response: 'ок' })
 })
 // Добавление животного
-app.post('/admin', CheckToken, CheckAdmin, AnimalController.AnimalAdd)
+app.post('/admin', CheckToken, CheckAdmin, adminAnimalController.animalAdd)
 // Получить всех животных
-app.get('/animals', AnimalController.GetAllTheAnimals)
+app.get('/animals', userAnimalController.getAllTheAnimals)
 // Удаление животного
-app.post('/admin/del', CheckToken, CheckAdmin, AnimalController.DeleteAnimal)
+app.post(
+	'/admin/del',
+	CheckToken,
+	CheckAdmin,
+	adminAnimalController.deleteAnimal
+)
 // Получить животное по id admin
-app.post('/admin/:id', CheckToken, CheckAdmin, AnimalController.GetAnimal)
+app.post('/admin/:id', CheckToken, CheckAdmin, adminAnimalController.getAnimal)
 // Изменить данные о животном
-app.patch('/admin/:id', CheckToken, CheckAdmin, AnimalController.EditAnimal)
+app.patch(
+	'/admin/:id',
+	CheckToken,
+	CheckAdmin,
+	adminAnimalController.editAnimal
+)
 // Получить животное по id user
-app.post('/animal/:id', AnimalController.GetAnimal)
+app.post('/animal/:id', userAnimalController.getAnimal)
 
 // Информация заявки для пользователя
 app.post(
 	'/animal/application/:id',
 	CheckToken,
-	ApplicationController.application
+	userApplicationController.application
 )
 // Создание заявки
 app.post(
 	'/createApplication',
 	CheckToken,
-	ApplicationController.createApplication
+	userApplicationController.createApplication
 )
 app.post(
 	'/getApplications',
 	CheckAdmin,
-	ApplicationController.returnApplications
+	adminApplicationController.returnApplications
 )
 app.post(
 	'/applicationUpdate',
 	CheckAdmin,
-	ApplicationController.changeStatusApplication
+	adminApplicationController.changeStatusApplication
 )
 // Статистика усыновлений
-app.get('/AdoptionStatistics', ReportController.AdoptionStatistics)
+app.get('/AdoptionStatistics', reportController.AdoptionStatistics)
 // Динамика усыновлений
-app.get('/AdoptionApplicationTrends', ReportController.UserActivityStatistics)
+app.get('/AdoptionApplicationTrends', reportController.UserActivityStatistics)
 
 async function connectToDatabase() {
 	try {

@@ -46,37 +46,36 @@
 }
 
 .printButton:hover {
-  background-color: #004d40;
+  background-color: black;
   transform: scale(1.05);
 }
 
 @media print {
-  body {
-    margin: 0;
-    padding: 0;
-    font-size: 12pt;
-  }
-
   .statisticsContainer {
     background: none;
     box-shadow: none;
-    border: 1px solid #00796b;
-  }
-
-  h1 {
-    color: #00796b;
-    font-size: 20pt;
+    border: 1px solid black;
+    h1 {
+      color: black;
+      font-size: 44px;
+    }
+    font-family: "Times New Roman", Times, serif;
   }
 
   .statisticItem {
     margin: 10px 0;
-    font-size: 16pt;
+    font-size: 24px;
     padding: 8px;
     background-color: #f9f9f9;
-    border: 1px solid #00796b;
+    border: 1px solid black;
+    line-height: 1.5;
   }
 
   .printButton {
     display: none;
+  }
+
+  .statisticItem strong {
+    color: black;
   }
 }

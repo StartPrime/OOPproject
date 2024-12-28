@@ -6,7 +6,13 @@ export default function AdoptionStatistics() {
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const currentDate = new Date();
+  const formattedDate = `${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}.${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}.${currentDate.getFullYear()}`;
   useEffect(() => {
     const fetchStatistics = async () => {
       try {
@@ -47,7 +53,9 @@ export default function AdoptionStatistics() {
 
   return (
     <div className={classes.statisticsContainer}>
-      <h1>Статистика усыновления</h1>
+      <h1>
+        Статистика усыновления <br /> на {formattedDate}
+      </h1>
       <div className={classes.statisticItem}>
         <strong>Всего заявок:</strong> {statistics.total_applications}
       </div>
@@ -65,10 +73,10 @@ export default function AdoptionStatistics() {
         <strong>Животные в семьях:</strong> {statistics.animals_in_family_count}
       </div>
       <div className={classes.statisticItem}>
-        <strong>Коэффициент принятия:</strong> {statistics.acceptance_rate}%
+        <strong>Процент принятия заявок:</strong> {statistics.acceptance_rate}%
       </div>
       <div className={classes.statisticItem}>
-        <strong>Коэффициент отклонения:</strong> {statistics.rejection_rate}%
+        <strong>Процент отклонения заявок:</strong> {statistics.rejection_rate}%
       </div>
       <button className={classes.printButton} onClick={handlePrint}>
         Печать

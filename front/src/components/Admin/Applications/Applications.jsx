@@ -128,16 +128,16 @@ export default function Applications() {
       {selectedApplication && (
         <div className={classes.modalOverlay}>
           <div className={classes.modal}>
-            <h2>Подробная информация о заявке</h2>
+            <h2>Информация о заявке</h2>
             <div>
               <strong>Номер заявки:</strong>{" "}
               {selectedApplication.application_id}
             </div>
             <div>
-              <strong>Животное:</strong> {selectedApplication.animal_name}
+              <strong>Имя животного:</strong> {selectedApplication.animal_name}
             </div>
             <div>
-              <strong>Возраст:</strong> {selectedApplication.animal_age} лет
+              <strong>Возраст:</strong> {selectedApplication.animal_age} месяцев
             </div>
             <div>
               <strong>Пол:</strong> {selectedApplication.animal_sex}
@@ -176,9 +176,8 @@ export default function Applications() {
             <div className={classes.userInfo}>
               <strong>Пользователь:</strong> {selectedApplication.user_name}{" "}
               {selectedApplication.user_surname}
-              <div>
-                <strong>Телефон:</strong> {selectedApplication.user_phone}
-              </div>
+              <br />
+              <strong>Телефон:</strong> {selectedApplication.user_phone}
             </div>
             <div className={classes.buttonContainer}>
               <button onClick={handlePrint}>Печать</button>

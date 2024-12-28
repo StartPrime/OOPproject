@@ -27,7 +27,6 @@ function Form() {
     photo: "",
     date: "",
     status: "",
-    info: "",
     token: localStorage.getItem("token"),
     role: localStorage.getItem("role"),
   });
@@ -200,14 +199,7 @@ function Form() {
                 <option value="в семье">В семье</option>
               </select>
             </div>
-            <div>
-              <label>Примечание:</label>
-              <textarea
-                name="info"
-                value={animalData.info}
-                onChange={handleChange}
-              />
-            </div>
+
             <div className={classes.buttons}>
               <button type="submit">Отправить</button>
               <button>

@@ -69,6 +69,7 @@ function Form() {
 
   return (
     <>
+      <p className={classes.profile}>Профиль</p>
       <div className={classes.animalDetails}>
         <h1>{animalData.name}</h1>
         <img
@@ -84,7 +85,7 @@ function Form() {
             <strong>Порода:</strong> {animalData.breed}
           </p>
           <p>
-            <strong>Возраст:</strong> {animalData.age}
+            <strong>Возраст:</strong> {animalData.age} {"месяцев"}
           </p>
           <p>
             <strong>Пол:</strong> {animalData.sex}
